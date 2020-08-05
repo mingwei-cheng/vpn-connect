@@ -21,21 +21,21 @@ import java.util.UUID;
 public class WebSocketHandler {
     private final Vertx vertx;
     private final String id;
-    private final String secret;
     private final String password;
+    private final SecretInterface secretImpl;
 
     public WebSocketHandler(Vertx vertx, String id, JsonObject config) {
         this.vertx = vertx;
         this.id = id;
-        this.secret = config.getString("secret");
+        String secret = config.getString("secret");
         this.password = config.getString("password");
+        secretImpl = SecretFactory.getSecretImpl(secret);
     }
 
     private static final Logger logger = LoggerFactory.getLogger(WebSocketHandler.class);
 
 
     public void handleMsg(byte[] data) {
-        SecretInterface secretImpl = SecretFactory.getSecretImpl(this.secret);
         Buffer decode = secretImpl.decode(Buffer.buffer(data), password);
         JsonObject json = new JsonObject(decode);
         Integer cmd = json.getInteger("cmd");
@@ -125,7 +125,6 @@ public class WebSocketHandler {
     private void sendWS(JsonObject json) {
         ServerWebSocket serverWebSocket = Global.wsMap.get(id);
         if (serverWebSocket != null) {
-            SecretInterface secretImpl = SecretFactory.getSecretImpl(this.secret);
             Buffer encode = secretImpl.encode(json.toBuffer(), password);
             serverWebSocket.write(encode);
         }

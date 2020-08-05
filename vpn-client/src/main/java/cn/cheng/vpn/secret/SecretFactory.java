@@ -11,11 +11,11 @@ public class SecretFactory {
     private static SecretInterface secretInterface;
 
     /**
-     * 静态工厂
+     * 静态工厂,懒汉式
      *
      * @return 当前加密方式
      */
-    public static SecretInterface getSecretImpl(JsonObject config) {
+    public static synchronized SecretInterface getSecretImpl(JsonObject config) {
         if (secretInterface != null) {
             return secretInterface;
         }
@@ -35,5 +35,4 @@ public class SecretFactory {
                 return secretInterface;
         }
     }
-
 }
