@@ -1,0 +1,5 @@
+{
+  "ws.port": 16666,
+  "secret": "DES",
+  "password": "helloSecret"
+}

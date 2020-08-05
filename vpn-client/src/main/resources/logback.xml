@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <property name="LOG_HOME" value="logs/service"/>
+    <property name="LOG_NAME" value="vpn_client"/>
+    <property name="pattern" value="%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"/>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender" level="INFO">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{30} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_HOME}/${LOG_NAME}.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_HOME}/${LOG_NAME}/%d{yyyy-MM-dd}.log.zip</fileNamePattern>
+            <maxHistory>120</maxHistory>
+            <totalSizeCap>20GB</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{30} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="com.mchange.v2" level="WARN"/>
+    <logger name="io.netty" level="WARN"/>
+    <logger name="io.vertx" level="WARN">
+        <appender-ref ref="STDOUT"/>
+    </logger>
+    <logger name="io.netty.util.internal.PlatformDependent" level="ERROR">
+        <appender-ref ref="STDOUT"/>
+    </logger>
+    <logger name="cn.cheng.vpn.verticle" level="INFO"/>
+    <root level="INFO">
+        <appender-ref ref="FILE"/>
+        <appender-ref ref="STDOUT"/>
+    </root>
+</configuration>

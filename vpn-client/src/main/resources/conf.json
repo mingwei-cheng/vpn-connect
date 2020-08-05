@@ -1,0 +1,7 @@
+{
+  "server.port": 1080,
+  "ws.port": 16666,
+  "ws.host": "127.0.0.1",
+  "secret": "DES",
+  "password": "helloSecret"
+}
