@@ -15,7 +15,7 @@
 - 服务端需配置：
 	```yaml
 	{
-	  "ws.port": 18888,
+	  "ws.port": 16666,
 	  "secret": "DES",
 	  "password": "helloSecret"
 	}
